@@ -123,11 +123,21 @@
                 >
             </div>
             <div class="absolute inset-0 bg-black/30 z-10"></div>
-            <div id="logo-container" class="absolute top-6 right-6 md:top-8 md:right-8 z-20">
-                <img src="https://i.imgur.com/3SFIgxS.png" alt="Logo LPYEE en blanco" class="w-36 md:w-64">
+            
+            <!-- Logo para Desktop (Top-Right con Parallax) -->
+            <div id="logo-container" class="hidden md:block absolute top-8 right-8 z-20">
+                <img src="https://i.imgur.com/3SFIgxS.png" alt="Logo LPYEE en blanco" class="w-64">
             </div>
-            <div class="scroll-indicator absolute bottom-6 right-6 md:bottom-8 md:right-8 z-20 text-[var(--color-arena)]">
+            <div class="hidden md:block scroll-indicator absolute bottom-8 right-8 z-20 text-[var(--color-arena)]">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+            </div>
+
+            <!-- Logo para Móvil (Centrado) -->
+            <div class="md:hidden absolute inset-0 z-20 flex flex-col items-center justify-center">
+                <img src="https://i.imgur.com/3SFIgxS.png" alt="Logo LPYEE en blanco" class="w-48 mb-4">
+                <div class="scroll-indicator text-[var(--color-arena)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+                </div>
             </div>
         </section>
         
@@ -140,12 +150,9 @@
                     <a href="https://www.instagram.com/lacaletachile/" target="_blank" class="block hover:underline">Instagram</a>
                     <a href="carta_completa.html" class="block hover:underline mt-2">MENÚ</a>
                 </div>
-                <div class="flex-grow flex flex-col justify-center space-y-8 text-left">
-                    <p class="text-3xl font-light leading-tight">
-                        una cocina que nace del pacífico
-                    </p>
-                    <p class="text-3xl font-light leading-tight">
-                        con fuerza, sabor y democracia.
+                <div class="flex-grow flex flex-col justify-center text-left">
+                    <p class="text-3xl font-light leading-snug">
+                        una <span class="font-serif-detail">cocina</span> que nace del pacífico con fuerza, sabor y <span class="font-serif-detail">democracia.</span>
                     </p>
                 </div>
                 <div class="flex justify-between items-end">
@@ -214,18 +221,20 @@
         const scrollContainer = document.querySelector('.scroll-container');
         const logoContainer = document.getElementById('logo-container');
 
-        scrollContainer.addEventListener('scroll', () => {
-            const scrollTop = scrollContainer.scrollTop;
-            const slideHeight = window.innerHeight;
+        if (logoContainer) { // Evita errores si el elemento no existe
+            scrollContainer.addEventListener('scroll', () => {
+                const scrollTop = scrollContainer.scrollTop;
+                const slideHeight = window.innerHeight;
 
-            if (scrollTop < slideHeight) {
-                const translateY = scrollTop * 0.5;
-                const opacity = 1 - (scrollTop / slideHeight) * 1.5;
-                logoContainer.style.willChange = 'transform, opacity';
-                logoContainer.style.transform = `translateY(${translateY}px)`;
-                logoContainer.style.opacity = Math.max(0, opacity);
-            }
-        });
+                if (scrollTop < slideHeight) {
+                    const translateY = scrollTop * 0.5;
+                    const opacity = 1 - (scrollTop / slideHeight) * 1.5;
+                    logoContainer.style.willChange = 'transform, opacity';
+                    logoContainer.style.transform = `translateY(${translateY}px)`;
+                    logoContainer.style.opacity = Math.max(0, opacity);
+                }
+            });
+        }
 
         document.querySelectorAll('.interactive-word').forEach(word => {
             const imageId = word.dataset.image;
